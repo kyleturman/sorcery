@@ -35,8 +35,9 @@ module Sorcery
                               :callback_url,
                               :site,
                               :scope,
-                              :display,
-                              :access_permissions
+                              :auth_path,
+                              :token_path,
+                              :user_info_mapping
                 attr_reader   :access_token
 
                 include Protocols::Oauth2
@@ -44,11 +45,9 @@ module Sorcery
                 def init
                   @site           = "https://www.dwolla.com"
                   @scope          = "accountinfofull"
+                  @auth_path      = "/oauth/v2/authenticate"
+                  @token_path     = "/oauth/v2/token"
                   @user_info_mapping = {}
-                  @token_url      = "/oauth/v2/token"
-                  @mode           = :query
-                  @parse          = :query
-                  @param_name     = "access_token"
                 end
                 
                 def has_callback?
@@ -72,10 +71,13 @@ module Sorcery
                 end
 
                 # tries to login the user from access token
-                def process_callback(params,session)
+				def process_callback(params,session)
                   args = {}
-                  options = { :token_url => @token_url, :mode => @mode, :param_name => @param_name, :parse => @parse }
                   args.merge!({:code => params[:code]}) if params[:code]
+                  options = {
+                    :token_url => @token_url,
+                    :token_method => :post
+                  }
                   @access_token = self.get_access_token(args, options)
                 end
                 
