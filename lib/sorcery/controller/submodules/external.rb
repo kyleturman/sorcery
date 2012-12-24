@@ -77,6 +77,8 @@ module Sorcery
             @user_hash = @provider.get_user_hash
             config = user_class.sorcery_config
 
+			puts "\n\nAccess Token: #{@provider.access_token} \n\n"
+
             # first check to see if user has a particular authentication already
             unless (current_user.send(config.authentications_class.to_s.downcase.pluralize).send("find_by_#{config.provider_attribute_name}_and_#{config.provider_uid_attribute_name}", provider, @user_hash[:uid].to_s))
               user = current_user.send(config.authentications_class.to_s.downcase.pluralize).build(config.provider_uid_attribute_name => @user_hash[:uid], config.provider_attribute_name => provider_name.to_s)
