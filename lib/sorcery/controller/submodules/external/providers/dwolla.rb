@@ -79,7 +79,7 @@ module Sorcery
 				def process_callback(params,session)
                   args = {}
                   args.merge!({:code => params[:code]}) if params[:code]
-                  options = { :token_url => @token_path, :token_method => :post, :mode => @mode, :param_name => @param_name, :parse => @parse }
+                  options = { :token_url => @token_path, :token_method => :post, :param_name => @param_name}
                   @access_token = self.get_access_token(args, options)
                 end
                 
