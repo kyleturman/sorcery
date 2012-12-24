@@ -35,6 +35,7 @@ module Sorcery
                               :callback_url,
                               :auth_path,
                               :token_path,
+                              :param_name,
                               :site,
                               :scope,
                               :user_info_path,
@@ -48,13 +49,13 @@ module Sorcery
                   @scope          = "Send|Transactions|Balance|Request|AccountInfoFull|Funding"
                   @auth_path      = "/oauth/v2/authenticate"
                   @token_path     = "/oauth/v2/token"
+                  @param_name     = "oauth_token"
                   @user_info_url  = "https://www.dwolla.com/oauth/rest/users/"
                   @user_info_mapping = {}
                 end
                 
                 def get_user_hash
                   user_hash = {}
-                  @access_token.token_param = "oauth_token"
                   response = @access_token.get(@user_info_url)
                   user_hash[:user_info] = JSON.parse(response.body)
                   user_hash[:uid] = user_hash[:user_info]['id']
@@ -78,6 +79,7 @@ module Sorcery
                   args.merge!({:code => params[:code]}) if params[:code]
                   options = {
                     :token_url    => @token_path,
+                    :param_name   => @param_name,
                     :token_method => :post
                   }
                   @access_token = self.get_access_token(args, options)
