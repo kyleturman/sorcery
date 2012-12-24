@@ -49,8 +49,6 @@ module Sorcery
                   @auth_path      = "/oauth/v2/authenticate"
                   @token_path     = "/oauth/v2/token"
                   @param_name     = "oauth_token"
-                  @mode			  = :query
-                  @parse		  = :query
                   @user_info_url  = "https://www.dwolla.com/oauth/rest/users/"
                   @user_info_mapping = {}
                 end
@@ -79,7 +77,7 @@ module Sorcery
 				def process_callback(params,session)
                   args = {}
                   args.merge!({:code => params[:code]}) if params[:code]
-                  options = { :token_url => @token_path, :mode => @mode, :param_name => @param_name, :parse => @parse }
+                  options = { :token_url => @token_path, :param_name => @param_name }
                   @access_token = self.get_access_token(args, options)
                 end
                 
