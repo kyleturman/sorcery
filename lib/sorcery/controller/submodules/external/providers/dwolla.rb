@@ -54,6 +54,7 @@ module Sorcery
                 
                 def get_user_hash
                   user_hash = {}
+                  @access_token.token_param = "oauth_token"
                   response = @access_token.get(@user_info_url)
                   user_hash[:user_info] = JSON.parse(response.body)
                   user_hash[:uid] = user_hash[:user_info]['id']
@@ -80,8 +81,6 @@ module Sorcery
                     :token_method => :post
                   }
                   @access_token = self.get_access_token(args, options)
-                  puts "\n\nACCESS TOKEN: #{@access_token.inspect}\n\n"
-                  @access_token
                 end
                 
               end
