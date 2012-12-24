@@ -76,10 +76,11 @@ module Sorcery
                 # tries to login the user from access token
 				def process_callback(params,session)
                   args = {}
-                  args.merge!({:code => params[:code], :param_name => @param_name}) if params[:code]
+                  args.merge!({:code => params[:code]}) if params[:code]
                   options = {
                     :token_url    => @token_path,
-                    :token_method => :post
+                    :token_method => :post,
+                    :param_name => @param_name
                   }
                   @access_token = self.get_access_token(args, options)
                 end

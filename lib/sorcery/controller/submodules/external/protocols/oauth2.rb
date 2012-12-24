@@ -21,8 +21,8 @@ module Sorcery
             def get_access_token(args, options = {})
               client = build_client(options)
               client.auth_code.get_token(
-                args,
-                { :redirect_uri => @callback_url, :parse => options.delete(:parse) }, options
+                args[:code],
+                options.merge({ :redirect_uri => @callback_url })
               )
             end
 
