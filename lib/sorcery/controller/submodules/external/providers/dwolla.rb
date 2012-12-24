@@ -44,7 +44,7 @@ module Sorcery
             
                 def init
                   @site           = "https://www.dwolla.com"
-                  @scope          = nil
+                  @scope          = "Send|Transactions|Balance|Request|AccountInfoFull|Funding"
                   @auth_path      = "/oauth/v2/authenticate"
                   @token_path     = "/oauth/v2/token"
                   @user_info_url  = "https://www.dwolla.com/oauth/rest/users/"
