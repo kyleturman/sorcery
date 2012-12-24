@@ -56,7 +56,7 @@ module Sorcery
                   response = @access_token.get(@user_info_url)
                   user_hash[:user_info] = JSON.parse(response.body)
                   user_hash[:uid] = user_hash[:user_info]['id']
-                  Rails.logger.info = user_hash.inspect
+                  Rails.logger.debug = user_hash.inspect
                   user_hash
                 end
                 
