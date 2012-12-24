@@ -33,10 +33,11 @@ module Sorcery
                 attr_accessor :key,
                               :secret,
                               :callback_url,
-                              :site,
-                              :scope,
                               :auth_path,
                               :token_path,
+                              :site,
+                              :scope,
+                              :user_info_path,
                               :user_info_mapping
                 attr_reader   :access_token
 
@@ -75,10 +76,12 @@ module Sorcery
                   args = {}
                   args.merge!({:code => params[:code]}) if params[:code]
                   options = {
-                    :token_url => @token_path,
+                    :token_url    => @token_path,
                     :token_method => :post
                   }
                   @access_token = self.get_access_token(args, options)
+                  puts "\n\nACCESS TOKEN: #{@access_token.inspect}\n\n"
+                  @access_token
                 end
                 
               end
