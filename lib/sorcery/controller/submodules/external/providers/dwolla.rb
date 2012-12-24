@@ -56,9 +56,7 @@ module Sorcery
                 
                 def get_user_hash
                   user_hash = {}
-                  puts "\n\nACCESS TOKEN: #{@access_token.inspect}\n\n"
-                  @access_token.param_name = @param_name
-                  response = @access_token.get(@user_info_url)
+                  response = @access_token.get(@user_info_url, {:param_name => @param_name})
                   user_hash[:user_info] = JSON.parse(response.body)
                   user_hash[:uid] = user_hash[:user_info]['id']
                   puts user_hash.inspect
