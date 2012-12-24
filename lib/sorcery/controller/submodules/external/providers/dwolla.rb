@@ -78,7 +78,7 @@ module Sorcery
                   args = {}
                   args.merge!({:code => params[:code], :param_name => @param_name}) if params[:code]
                   options = {
-                    :token_url    => @token_path
+                    :token_url    => @token_path,
                     :token_method => :post
                   }
                   @access_token = self.get_access_token(args, options)
