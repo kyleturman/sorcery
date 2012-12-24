@@ -47,6 +47,7 @@ module Sorcery
                   @scope          = "accountinfofull"
                   @auth_path      = "/oauth/v2/authenticate"
                   @token_path     = "/oauth/v2/token"
+                  @user_info_url  = "/oauth/rest/users"
                   @user_info_mapping = {}
                 end
                 
@@ -54,7 +55,7 @@ module Sorcery
                   user_hash = {}
                   response = @access_token.get(@user_info_url)
                   user_hash[:user_info] = JSON.parse(response.body)
-                  user_hash[:uid] = user_hash[:user_info]['access_token']
+                  user_hash[:uid] = user_hash[:user_info]['id']
                   user_hash
                 end
                 
@@ -69,7 +70,7 @@ module Sorcery
                 # calculates and returns the url to which the user should be redirected,
                 # to get authenticated at the external provider's site.
                 def login_url(params,session)
-                  self.authorize_url
+                  self.authorize_url({:authorize_url => @auth_path})
                 end
 
                 # overrides oauth2#authorize_url to allow customized scope.
