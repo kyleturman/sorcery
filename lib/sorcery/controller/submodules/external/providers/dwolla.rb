@@ -35,7 +35,6 @@ module Sorcery
                               :callback_url,
                               :auth_path,
                               :token_path,
-                              :param_name,
                               :site,
                               :scope,
                               :user_info_path,
@@ -50,12 +49,15 @@ module Sorcery
                   @auth_path      = "/oauth/v2/authenticate"
                   @token_path     = "/oauth/v2/token"
                   @param_name     = "oauth_token"
+                  @mode			  = :query
+                  @parse		  = :query
                   @user_info_url  = "https://www.dwolla.com/oauth/rest/users/"
                   @user_info_mapping = {}
                 end
                 
                 def get_user_hash
                   user_hash = {}
+                  puts "\n\nACCESS TOKEN: #{@access_token.inspect}\n\n"
                   response = @access_token.get(@user_info_url)
                   user_hash[:user_info] = JSON.parse(response.body)
                   user_hash[:uid] = user_hash[:user_info]['id']
@@ -77,11 +79,7 @@ module Sorcery
 				def process_callback(params,session)
                   args = {}
                   args.merge!({:code => params[:code]}) if params[:code]
-                  options = {
-                    :token_url    => @token_path,
-                    :token_method => :post,
-                    :param_name => @param_name
-                  }
+                  options = { :token_url => @token_path, :token_method => :post, :mode => @mode, :param_name => @param_name, :parse => @parse }
                   @access_token = self.get_access_token(args, options)
                 end
                 
